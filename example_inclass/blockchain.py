@@ -29,6 +29,7 @@ class Blockchain(object):
         :param previous_hash: (Optional) <str> Hash of previous Block
         :return: <dict> New Block
         """
+
         if len(self.chain) > 0:
             block_string = json.dumps(self.last_block, sort_keys=True)
             guess = f'{block_string}{proof}'.encode()
@@ -71,6 +72,7 @@ class Blockchain(object):
         # TODO: Create the block_string
         string_object = json.dumps(block, sort_keys=True)
         block_string = string_object.encode()
+
         # TODO: Hash this string using sha256
         raw_hash = hashlib.sha256(block_string)
         hex_hash = raw_hash.hexdigest()
@@ -100,7 +102,6 @@ class Blockchain(object):
         proof = 0
         while not self.valid_proof(block_string, proof):
             proof += 1
-        # return proof
         return proof
 
     @staticmethod
@@ -115,10 +116,8 @@ class Blockchain(object):
         correct number of leading zeroes.
         :return: True if the resulting hash is a valid proof, False otherwise
         """
-        # TODO
         guess = f"{block_string}{proof}".encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
-        # return True or False
         return guess_hash[:4] == "0000"
 
 
@@ -155,7 +154,6 @@ def mine():
 @app.route('/chain', methods=['GET'])
 def full_chain():
     response = {
-        # TODO: Return the chain and its current length
         'length': len(blockchain.chain),
         'chain': blockchain.chain
     }
