@@ -1,9 +1,10 @@
 import hashlib
+import json
+from time import time
+from uuid import uuid4
 import requests
 
-import sys
-import json
-
+from flask import Flask, jsonify, request
 
 def proof_of_work(block):
     """
@@ -13,7 +14,12 @@ def proof_of_work(block):
     in an effort to find a number that is a valid proof
     :return: A valid proof for the provided block
     """
-    pass
+    block_string = json.dumps(self.last_block, sort_keys=True)
+    proof = 0
+    while not self.valid_proof(block_string, proof):
+        proof += 1
+    # return proof
+    return proof
 
 
 def valid_proof(block_string, proof):
@@ -30,6 +36,8 @@ def valid_proof(block_string, proof):
     pass
 
 
+
+
 if __name__ == '__main__':
     # What is the server address? IE `python3 miner.py https://server.com/api/`
     if len(sys.argv) > 1:
@@ -38,7 +46,7 @@ if __name__ == '__main__':
         node = "http://localhost:5000"
 
     # Load ID
-    f = open("my_id.txt", "r")
+    f = open("Blockchain/Assignments/client_mining_p/my_id.txt", "r")
     id = f.read()
     print("ID is", id)
     f.close()
