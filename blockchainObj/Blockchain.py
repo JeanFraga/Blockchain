@@ -30,7 +30,7 @@ class Blockchain(object):
             guess = f'{block_string}{proof}'.encode()
             current_hash = hashlib.sha256(guess).hexdigest()
         else:
-            current_hash = ""
+            current_hash = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"
 
         block = {
             'index': len(self.chain) + 1,
@@ -47,6 +47,21 @@ class Blockchain(object):
         self.chain.append(block)
         # Return the new block
         return block
+
+    def new_transaction(self, sender, recipient, amount):
+        """
+        Creates a new transaction to go into the next mined Block
+        :param sender: <str> Address of the Recipient
+        :param recipient: <str> Address of the Recipient
+        :param amount: <int> Amount
+        :return: <int> The index of the Block that will hold this transaction
+        """
+        self.current_transactions.append({
+            'sender': sender,
+            'recipient': recipient,
+            'amount': amount
+        })
+        return self.last_block['index'] + 1
 
     def hash(self, block):
         """
@@ -84,20 +99,20 @@ class Blockchain(object):
     def last_block(self):
         return self.chain[-1]
 
-    def proof_of_work(self):
-        """
-        Simple Proof of Work Algorithm
-        Stringify the block and look for a proof.
-        Loop through possibilities, checking each one against `valid_proof`
-        in an effort to find a number that is a valid proof
-        :return: A valid proof for the provided block
-        """
-        block_string = json.dumps(self.last_block, sort_keys=True)
-        proof = 0
-        while not self.valid_proof(block_string, proof):
-            proof += 1
-        # return proof
-        return proof
+    # def proof_of_work(self):
+    #     """
+    #     Simple Proof of Work Algorithm
+    #     Stringify the block and look for a proof.
+    #     Loop through possibilities, checking each one against `valid_proof`
+    #     in an effort to find a number that is a valid proof
+    #     :return: A valid proof for the provided block
+    #     """
+    #     block_string = json.dumps(self.last_block, sort_keys=True)
+    #     proof = 0
+    #     while not self.valid_proof(block_string, proof):
+    #         proof += 1
+    #     # return proof
+    #     return proof
 
     @staticmethod
     def valid_proof(block_string, proof):
@@ -115,4 +130,4 @@ class Blockchain(object):
         guess = f"{block_string}{proof}".encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
         # return True or False
-        return guess_hash[:4] == "0000"
+        return guess_hash[:6] == "000000"

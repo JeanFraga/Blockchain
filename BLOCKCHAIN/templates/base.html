@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> LambdaCoin Wallet </title>
+    </head>
+    <body>
+        <h1> LambdaCoin Wallet </h1>
+        <link rel="stylesheet" href="https://unpkg.com/picnic">
+        {% block content %}
+        <form action="/transactions/add_user" method="post">
+            <input type="text" name="add_user" placeholder="user">
+            <input type="submit" value="add_user">
+        </form>
+        {% endblock %}
+    </body>
+    <body>
+        <form action="/transactions/new" method="post">
+            <select name=sender">
+                {% for user in users %}
+                <option value = "{{ user }}">{{ user }}</option>
+                {% endfor %}
+            </select>
+            <select name=recipient">
+                {% for user in users %}
+                <option value = "{{ user }}">{{ user }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="amount" placeholder="amount">
+            <input type="submit" value="Make Transaction">
+        </form>
+    </body>
+    
+</html>

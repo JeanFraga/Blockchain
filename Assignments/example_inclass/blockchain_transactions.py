@@ -35,7 +35,7 @@ class Blockchain(object):
             guess = f'{block_string}{proof}'.encode()
             current_hash = hashlib.sha256(guess).hexdigest()
         else:
-            current_hash = ""
+            current_hash = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"
 
         block = {
             'index': len(self.chain) + 1,
